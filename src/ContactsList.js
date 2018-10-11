@@ -12,11 +12,17 @@ function ContactsList (props) {
 					backgroundImage: `url(${contact.avatarURL})`
 				}}>
 			</div>
+
 			<div className='contact-details'>
 				<p>{contact.name}</p>
 				<p>{contact.handle}</p>
 			</div>
-			<button className='contact-remove'>Remove</button>
+
+			<button
+				className='contact-remove'
+				onClick={() => props.onDeleteContact(contact)}>
+				Remove
+			</button>
 		</li>
   ));
 
