@@ -1,40 +1,62 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-/* CHANGE TO SFC - Stateless Functional Component */
-function ContactsList (props) {
-	const contacts = props.contacts;
+class ContactsList extends Component {
 
-  const contactsList = contacts.map(contact => (
-		<li key={contact.id} className='contact-list-item'>
-			<div
-				className='contact-avatar'
-				style={{
-					backgroundImage: `url(${contact.avatarURL})`
-				}}>
+	static propTypes = {
+	  contacts: PropTypes.array.isRequired,
+	  onDeleteContact: PropTypes.func.isRequired,
+	}
+
+	state = {
+		query: ''
+	}
+
+	updateQuery = (query) => {
+		this.setState(() => ({
+			query: query.trim()
+		}))
+	}
+
+	render() {
+		const contacts = this.props.contacts;
+	  const contactsList = contacts.map(contact => (
+			<li key={contact.id} className='contact-list-item'>
+				<div
+					className='contact-avatar'
+					style={{
+						backgroundImage: `url(${contact.avatarURL})`
+					}}>
+				</div>
+
+				<div className='contact-details'>
+					<p>{contact.name}</p>
+					<p>{contact.handle}</p>
+				</div>
+
+				<button
+					className='contact-remove'
+					onClick={() => this.props.onDeleteContact(contact)}>
+					Remove
+				</button>
+			</li>
+	  ));
+
+		return (
+			<div className='list-contacts'>
+				{JSON.stringify(this.state)}
+				<div className='list-contacts-top'>
+					<input
+						className="search-contacts"
+						type="text"
+						placeholder="Search Contacts"
+						value={this.state.query}
+						onChange={(event) => this.updateQuery(event.target.value)}/>
+				</div>
+				<ol>{contactsList}</ol>
 			</div>
-
-			<div className='contact-details'>
-				<p>{contact.name}</p>
-				<p>{contact.handle}</p>
-			</div>
-
-			<button
-				className='contact-remove'
-				onClick={() => props.onDeleteContact(contact)}>
-				Remove
-			</button>
-		</li>
-  ));
-
-  return (
-    <ol>{contactsList}</ol>
-  )
-}
-
-ContactsList.propTypes = {
-  contacts: PropTypes.array.isRequired,
-  onDeleteContact: PropTypes.func.isRequired,
+		);
+	}
 }
 
 export default ContactsList;
