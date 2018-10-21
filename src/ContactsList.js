@@ -32,8 +32,8 @@ class ContactsList extends Component {
 					contact.name.toLowerCase().includes(query.toLowerCase()) /* prototype.includes is not suppoted by ie */
 				));
 
-	  const contactsList = filteredContacts.map(contact => (
-			<li key={contact.id} className='contact-list-item'>
+	  const contactsList = filteredContacts.map((contact, index) => (
+			<li key={index} className='contact-list-item'>
 				<div
 					className='contact-avatar'
 					style={{
