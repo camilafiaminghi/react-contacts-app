@@ -6,7 +6,7 @@ import CreateContact from './CreateContact';
 class App extends Component {
   state = {
     contacts: [],
-    screen: 'create'
+    screen: 'list'
   }
 
   componentDidMount() {
@@ -34,7 +34,12 @@ class App extends Component {
         {this.state.screen === 'list' && (
           <ContactsList
             contacts={this.state.contacts}
-            onDeleteContact={this.removeContact} />
+            onDeleteContact={this.removeContact}
+            onNavigate={() => {
+              this.setState(() => ({
+                screen: 'create'
+              }))
+            }} />
         )}
         {this.state.screen === 'create' && (
           <CreateContact />
